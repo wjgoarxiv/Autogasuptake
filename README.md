@@ -99,7 +99,27 @@ Default style | Decorated style
 :-------------------------:|:-------------------------:
 <img src=""/> | <img src=""/> 
 
-Now, leftover is to see the automated calculation and visualization of your gas uptake data. ENJOY!
+Now, leftover is to see the automated calculation and visualization of your gas uptake data. ENJOY
+
+## **Equation of State (EOS) information**
+### **Redlich-Kwong (RK) EOS**
+Redlich-Kwong EOS is one of the most popular EOSs. To calculate the compressibility factor ($z$), the program uses the following equations:
+$$Tr = \frac{T}{T_c}, \quad Pr = \frac{P}{P_c}$$
+$$a = 0.42748 \frac{R^2 T_c^{2.5}}{P_c} \omega, \quad b = 0.08664 \frac{RT_c}{P_c}$$
+$$A = aP/RT^{2.5}, \quad B = bP/RT$$
+$$z, where \space z^3 - z^2 + (A - B - B^2)z - AB = 0$$
+Where $T$ is the experimental temperature, $T_c$ is the critical temperature, $P$ is the experimental pressure, $P_c$ is the critical pressure, $R$ is the gas constant, and $\omega$ is the acentric factor. $a$, $b$, $A$, and $B$ are the parameters of the EOS.
+The z value is calculated by using the Newton's method. 
+
+### **Peng-Robinson (PR) EOS**
+Peng-Robinson EOS is more newer than Redlich-Kwong EOS and also one of the most popular EOSs. To calculate the compressibility factor ($z$), the program uses the following equations:
+$$Tr = \frac{T}{T_c}, \quad Pr = \frac{P}{P_c}$$
+$$a = 0.45724 \frac{R^2 T_c^{2}}{P_c} \omega, \quad b = 0.07780 \frac{RT_c}{P_c}$$
+$$\kappa = 0.37464 + 1.54226\omega - 0.26992\omega^2$$
+$$\alpha = (1 + \kappa(1 - \sqrt{T_r}))^2$$
+$$z, where \space z^3 - (1 - B)z^2 + (A - 2B - 3B^2)z - AB - B^2 - B^3= 0$$
+Where $T$ is the experimental temperature, $T_c$ is the critical temperature, $P$ is the experimental pressure, $P_c$ is the critical pressure, $R$ is the gas constant, and $\omega$ is the acentric factor. $a$, $b$, $\kappa$, and $\alpha$ are the parameters of the Peng-Robinson EOS.
+The z value is also calculated by using the Newton's method.
 
 ## **License**
 - MIT License
