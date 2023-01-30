@@ -103,7 +103,7 @@ Now, leftover is to see the automated calculation and visualization of your gas 
 
 ## **Equation of State (EOS) information**
 ### **Redlich-Kwong (RK) EOS**
-Redlich-Kwong EOS is one of the most popular EOSs. To calculate the compressibility factor ($z$), the program uses the following equations:
+Redlich-Kwong EOS is one of the most popular EOSs. To calculate the compressibility factor ( $z$ ), the program uses the following equations:
 $$Tr = \frac{T}{T_c}, \quad Pr = \frac{P}{P_c}$$
 $$a = 0.42748 \frac{R^2 T_c^{2.5}}{P_c} \omega, \quad b = 0.08664 \frac{RT_c}{P_c}$$
 $$A = aP/RT^{2.5}, \quad B = bP/RT$$
@@ -112,7 +112,7 @@ Where $T$ is the experimental temperature, $T_c$ is the critical temperature, $P
 The z value is calculated by using the Newton's method. 
 
 ### **Peng-Robinson (PR) EOS**
-Peng-Robinson EOS is more newer than Redlich-Kwong EOS and also one of the most popular EOSs. To calculate the compressibility factor ($z$), the program uses the following equations:
+Peng-Robinson EOS is more newer than Redlich-Kwong EOS and also one of the most popular EOSs. To calculate the compressibility factor ( $z$ ), the program uses the following equations:
 $$Tr = \frac{T}{T_c}, \quad Pr = \frac{P}{P_c}$$
 $$a = 0.45724 \frac{R^2 T_c^{2}}{P_c} \omega, \quad b = 0.07780 \frac{RT_c}{P_c}$$
 $$\kappa = 0.37464 + 1.54226\omega - 0.26992\omega^2$$
