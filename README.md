@@ -95,9 +95,9 @@ eos = rk
 ```
 Basically, you should choose your interested gas and find its critical temperture, critical pressure, and acentric factor. And carefully modify `settings.txt` file according to your found values. The demo `settings.txt` file is written for the calculation of gas uptake of $CO_2$ molecules. After then, you can choose whether to decorate the graph with research figure style, whether to include the title in the graph, and the output file type. Especially, if you choose `y` for the graph decoration, the program will change the font-style, font-size, and line-width of the graph. If you write `n` for the graph decoration, the plot will be exported with the default style. If you want to know more about the <i>decorated</i> style and the <i>default</i> style, refer to the below comparison.
 
-Default style | Decorated style
+(n) Default style | (y) Decorated style
 :-------------------------:|:-------------------------:
-<img src=""/> | <img src=""/> 
+<img src="https://github.com/wjgoarxiv/Autogasuptake/blob/56c7439fd725e2c75bba75cbc0e38537a7f80f63/withoutDECO.png"/> | <img src="https://github.com/wjgoarxiv/Autogasuptake/blob/56c7439fd725e2c75bba75cbc0e38537a7f80f63/withDECO.png"/> 
 
 Now, leftover is to see the automated calculation and visualization of your gas uptake data. ENJOY
 
