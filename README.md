@@ -12,7 +12,6 @@ You will need below packages to run **Autogasuptake**. But don't worry, you can 
 - `scipy`
 - `scikit-learn`
 - `seaborn`
-- `argparse`
 - `pyfiglet`
 - `tabulate`
 
@@ -105,7 +104,7 @@ Now, leftover is to see the automated calculation and visualization of your gas 
 ### **Redlich-Kwong (RK) EOS**
 Redlich-Kwong EOS is one of the most popular EOSs. To calculate the compressibility factor ( $z$ ), the program uses the following equations:
 $$Tr = \frac{T}{T_c}, \quad Pr = \frac{P}{P_c}$$
-$$a = 0.42748 \frac{R^2 T_c^{2.5}}{P_c} \omega, \quad b = 0.08664 \frac{RT_c}{P_c}$$
+$$a = 0.42748 \frac{R^2 T_c^{2.5}}{P_c}, \quad b = 0.08664 \frac{RT_c}{P_c}$$
 $$A = aP/RT^{2.5}, \quad B = bP/RT$$
 $$z, where \space z^3 - z^2 + (A - B - B^2)z - AB = 0$$
 Where $T$ is the experimental temperature, $T_c$ is the critical temperature, $P$ is the experimental pressure, $P_c$ is the critical pressure, $R$ is the gas constant, and $\omega$ is the acentric factor. $a$, $b$, $A$, and $B$ are the parameters of the EOS.
