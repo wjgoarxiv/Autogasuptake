@@ -136,6 +136,12 @@ The z value is also calculated by using the Newton's method.
 
 - [Reference](https://en.m.wikipedia.org/wiki/Cubic_equations_of_state#Peng%E2%80%93Robinson_equation_of_state)
 
+## **Equations used**
+### **Gas uptake equation**
+The gas uptake (mol of gas / mol of water) is simply calculated by using the following equation: 
+$$\frac{n_{gas}}{n_{water}} = \frac{P_{exp}\Delta{V}}{zRT_{exp}}\frac{1}{\frac{m_{water}}{M_{water}}}$$
+Where $n_{gas}$ is the number of gas molecules, $n_{water}$ is the number of water molecules, $P_{exp}$ is the experimental pressure, $\Delta{V}$ is the volume change in ISCO syringe pump, $z$ is the compressibility factor, $R$ is the gas constant, $T_{exp}$ is the experimental temperature, $m_{water}$ is the mass of water, and $M_{water}$ is the molar mass of water.
+
 ## **License**
 - MIT License
 
