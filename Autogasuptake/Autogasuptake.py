@@ -15,6 +15,7 @@ This script is designed to automate the process of processing and plotting the g
 """
 
 # Import libraries
+import time
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -22,7 +23,6 @@ import seaborn as sns
 import os
 import sys 
 from tabulate import tabulate
-import time
 import glob
 import pyfiglet
 from scipy.optimize import newton
@@ -66,6 +66,8 @@ def main():
                         tunit = line[1].strip()
                     elif line[0].strip() == 'graph-decorate':
                         graph_decorate = line[1].strip()
+                    elif line[0].strip() == 'plot-type':
+                        plot_type = line[1].strip()
                     elif line[0].strip() == 'include-title':
                         include_title = line[1].strip()
                     elif line[0].strip() == 'output-file-type':
@@ -74,6 +76,8 @@ def main():
                         eos = line[1].strip()
                     elif line[0].strip() == 'stdev':
                         stdev = line[1].strip()
+                    elif line[0].strip() == 'water-mass':
+                        water_mass = float(line[1].strip())
 
         # Check the validity of the settings
         if not os.path.isdir(input_dirloc):
@@ -105,6 +109,9 @@ def main():
             sys.exit()
         if eos not in ['rk', 'pr']:
             print('ERROR The equation of state model must be either rk or pr.')
+            sys.exit()
+        if water_mass <= 0:
+            print('ERROR The mass of water must be positive.')
             sys.exit()
 
     except FileNotFoundError:
@@ -143,6 +150,9 @@ def main():
             f.write("# Whether to decorate the graph with research figure style (options: y, n) \n")
             f.write("graph-decorate = y \n")
             f.write("\n")
+            f.write("# Plot type (options: line, scatter) \n")
+            f.write("plot-type = line \n")
+            f.write("\n")
             f.write("# Whether to include the title in the graph (options: y, n) \n")
             f.write("include-title = y \n")
             f.write("\n")
@@ -151,12 +161,16 @@ def main():
             f.write("\n")
             f.write("# Equation of state model (options: rk, pr) \n")
             f.write("eos = rk \n")
+            f.write("\n")
+            f.write("# Water mass you used in the experiment (in g) \n")
+            f.write("water-mass = 30 \n")
         print('INFO The `settings.txt` file has been created. Please edit the file and run the program again.')
         sys.exit()
 
     # Set variables here
     water_mol = 18.01528 # g/mol
     R = 0.083145 # L bar / K mol (gas constant)
+    cal_water_mol = water_mass / water_mol # mol
 
     # Show options selected by the user
     print('\n')
@@ -170,8 +184,12 @@ def main():
     print('* Acentric factor: ', omega)
     print('* Time unit: ', tunit)
     print('* Graph decoration: ', graph_decorate)
+    print('* Plot type: ', plot_type)
     print('* Include title: ', include_title)
     print('* Output file type: ', output_file_type)
+    print('* Equation of state model: ', eos)
+    print('* Water mass: ', water_mass, 'g')
+    print('* Water mol number: ', cal_water_mol, 'mol')
 
     print('---------------------------------------------------------')
     print('INFO If these options are not correct, please adjust them in the `settings.txt` file.')
@@ -271,7 +289,7 @@ def main():
     # Pressure unit conversion 
     df['Pressure (bar)'] = df['Pressure (psi)'] * 0.0689475729
     exp_pres = float(df['Pressure (bar)'][0])
-    print("INFO The experimental pressure (logged in ISCOPump) is", exp_pres, "bar. Is it close to your intended pressure?")
+    print("INFO The experimental pressure (logged in ISCOPump) is", exp_pres, "bar. Check if it is your intended pressure.")
 
     # Cylinder volume unit conversion
     df['Cylinder volume (L)'] = df['Cylinder volume (mL)'] * 0.001
@@ -318,19 +336,69 @@ def main():
         df['Time (s)'] = time
 
     # 2. y-axis: gas uptake (mol of gas / mol of water) -> delta_n
-    # Equation: delta_n = P * Delta_V / (R * T * z)
+        # Equation: delta_n = P * Delta_V / (R * T * z)
+        # Delta_V = V2 - V1; V2 is the first value of the cylinder volume column, V1 is the current value of the cylinder volume column
+        # But in some case, the cylinder volume might be oscillating at the beginning of the experiment. Therefore, the program must initially identifies the first value of the cylinder volume column that is not oscillating. 
 
-    # Delta_V = V2 - V1; V2 is the first value of the cylinder volume column, V1 is the current value of the cylinder volume column
+        # Criteria: Check that whether the cylinder volume is increased. If it IS, then the first value of the cylinder volume is NOT the V2. 
+    if df['Cylinder volume (L)'][0] < df['Cylinder volume (L)'][1]:
+        print("INFO Note that the cylinder volume is increasing at the beginning of the experiment. The program will identify the first value of the cylinder volume that is not oscillating.")
+        for i in range(len(df)):
+            if df['Cylinder volume (L)'][i] < df['Cylinder volume (L)'][i+1]:
+                pass
+            else:
+                break
+        print("INFO The oscillated parts were truncated. The plot starts from the", i+1, "th data point.")
+        df = df[i+1:]
+    else: 
+        pass
+
+    # 3. Outlier detection
+        # Sometimes, LABView might not be able to record the data properly. In this case, the cylinder volume might be 0.0.
+        # In this case, the program will remove that row. 
+    if df['Cylinder volume (L)'].min() == 0.0:
+        print("INFO Note that the cylinder volume is 0.0 at some point. The program will remove this outlier.")
+        df.drop(df[df['Cylinder volume (L)'] == 0.0].index, inplace=True)
+    else:
+        pass
+
     df['Delta_V (L)'] = df['Cylinder volume (L)'].iloc[0] - df['Cylinder volume (L)']
 
     # Make a new column for delta_n
-    df['Gas uptake (mol of gas / mol of water)'] = df['Pressure (bar)'] * df['Delta_V (L)'] / (R * exp_temp * z)
+    df['Gas uptake (mol of gas)'] = df['Pressure (bar)'] * df['Delta_V (L)'] / (R * exp_temp * z)
+    df['Gas uptake (mol of gas / mol of water)'] = df['Gas uptake (mol of gas)'] / cal_water_mol
     print("INFO The data was successfully treated!")
     ###############CALCULATION################
 
     ###############GRAPH PLOTTER################
+
+    # 1. Plot type selection
+    # The program will ask the user first which kinds of plot they want to see (options: scatter, line, bar)
+
+    # 2. Plot settings
+    if plot_type == 'scatter':
+        scatter_num = int(input("INFO How many dots do you want to include in the scatter plot? (Recommended: 20): "))
+        if scatter_num > len(df):
+            print("ERROR The number of dots is larger than the number of data points. Please check the input again.")
+            print("ERROR The program will stop.")
+            exit()
+        total_data_num = len(df)
+        interval = int(total_data_num / scatter_num)
+        df = df.iloc[::interval, :]
+        print("INFO The scatter plot will include" , scatter_num, "dots.") 
+    else:
+        pass
+
+    # Ask line width & line style
+    from matplotlib import rcParams
+    if plot_type == 'line':
+        line_width = float(input("INFO What is the line width? (Recommended: 1.5): "))
+        rcParams['lines.linewidth'] = line_width
+    else:
+        pass
+
+    # 3. Graph decoration for scatter & line plots (optional)
     if graph_decorate == 'y' or graph_decorate == 'Y':
-        from matplotlib import rcParams
 
         # Graph size settings
         rcParams['figure.figsize'] = 6, 6
@@ -339,6 +407,9 @@ def main():
         rcParams['font.family'] = 'sans-serif'
         rcParams['font.sans-serif'] = ['Arial']
         rcParams['font.size'] = 14
+        rcParams['axes.titlepad'] = 10
+        rcParams['axes.titleweight'] = 'bold'
+        rcParams['axes.titlesize'] = 18
 
         # Axes settings
         rcParams['axes.labelweight'] = 'bold'
@@ -364,46 +435,91 @@ def main():
         print('ERROR Incorrect input. Please enter "y" or "n".')
         sys.exit()
 
-    # Plotting
-    if tunit == 'h':
-        plt.plot(df['Time (h)'], df['Gas uptake (mol of gas / mol of water)'], color='black')
-        plt.xlim(0, df['Time (h)'].iloc[-1])
-        plt.ylim(0 , round(df['Gas uptake (mol of gas / mol of water)'].max() + 0.4 * df['Gas uptake (mol of gas / mol of water)'].max(), 2))
-        plt.xlabel('Time (h)')
-    elif tunit == 'm':
-        plt.plot(df['Time (min)'], df['Gas uptake (mol of gas / mol of water)'], color='black')
-        plt.xlim(0, df['Time (min)'].iloc[-1])
-        plt.ylim(0, round(df['Gas uptake (mol of gas / mol of water)'].max() + 0.4 * df['Gas uptake (mol of gas / mol of water)'].max(), 2))
-        plt.xlabel('Time (min)')
-    elif tunit == 's':
-        plt.plot(df['Time (s)'], df['Gas uptake (mol of gas / mol of water)'], color='black')
-        plt.xlim(0, df['Time (s)'].iloc[-1])
-        plt.ylim(0 , round(df['Gas uptake (mol of gas / mol of water)'].max() + 0.4 * df['Gas uptake (mol of gas / mol of water)'].max(), 2))
-        plt.xlabel('Time (s)')
-    plt.ylabel('Gas uptake (mol of gas / mol of water)')
-    plt.tight_layout()
+    if plot_type == 'line':
+        # Plotting
+        if tunit == 'h':
+            plt.plot(df['Time (h)'], df['Gas uptake (mol of gas / mol of water)'], color='black')
+            plt.xlim(0, df['Time (h)'].iloc[-1])
+            plt.ylim(0 , round(df['Gas uptake (mol of gas / mol of water)'].max() + 0.4 * df['Gas uptake (mol of gas / mol of water)'].max(), 2))
+            plt.xlabel('Time (h)')
+        elif tunit == 'm':
+            plt.plot(df['Time (min)'], df['Gas uptake (mol of gas / mol of water)'], color='black')
+            plt.xlim(0, df['Time (min)'].iloc[-1])
+            plt.ylim(0, round(df['Gas uptake (mol of gas / mol of water)'].max() + 0.4 * df['Gas uptake (mol of gas / mol of water)'].max(), 2))
+            plt.xlabel('Time (min)')
+        elif tunit == 's':
+            plt.plot(df['Time (s)'], df['Gas uptake (mol of gas / mol of water)'], color='black')
+            plt.xlim(0, df['Time (s)'].iloc[-1])
+            plt.ylim(0 , round(df['Gas uptake (mol of gas / mol of water)'].max() + 0.4 * df['Gas uptake (mol of gas / mol of water)'].max(), 2))
+            plt.xlabel('Time (s)')
+        plt.ylabel('Gas uptake (mol of gas / mol of water)')
+        plt.tight_layout()
 
-    if include_title == 'y' or include_title == 'Y':
-        plt.title(str(file_list[file_number]))
-    elif include_title == 'n' or include_title == 'N':
-        pass
-    else: 
-        print('ERROR Incorrect input. Please enter "y" or "n".')
-        sys.exit()
+        if include_title == 'y' or include_title == 'Y':
+            plt.title(str(file_list[file_number]))
+        elif include_title == 'n' or include_title == 'N':
+            pass
+        else: 
+            print('ERROR Incorrect input. Please enter "y" or "n".')
+            sys.exit()
 
-    # Save figure
-    if output_file_type == 'png':
-        plt.savefig(str(file_list[file_number]).replace('.csv', '.png'), dpi=300, bbox_inches='tight')
-    elif output_file_type == 'pdf':
-        plt.savefig(str(file_list[file_number]).replace('.csv', '.pdf'), bbox_inches='tight')
-    elif output_file_type == 'svg':
-    # White space should be minimized
-        plt.savefig(str(file_list[file_number]).replace('.csv', '.svg'), bbox_inches='tight')
+        # Save figure
+        if output_file_type == 'png':
+            plt.savefig(str(file_list[file_number]).replace('.csv', '.png'), dpi=300, bbox_inches='tight')
+        elif output_file_type == 'pdf':
+            plt.savefig(str(file_list[file_number]).replace('.csv', '.pdf'), bbox_inches='tight')
+        elif output_file_type == 'svg':
+            plt.savefig(str(file_list[file_number]).replace('.csv', '.svg'), bbox_inches='tight')
+        else:
+            print('ERROR Incorrect input. Please enter "png", "pdf", or "svg".')
+            sys.exit()
+
+        print("INFO The line graph was successfully saved! Please check the target folder.")
+
+    elif plot_type == 'scatter':
+        # Plotting
+        if tunit == 'h':
+            plt.scatter(df['Time (h)'], df['Gas uptake (mol of gas / mol of water)'], color='black')
+            plt.xlim(0, df['Time (h)'].iloc[-1])
+            plt.ylim(0 , round(df['Gas uptake (mol of gas / mol of water)'].max() + 0.4 * df['Gas uptake (mol of gas / mol of water)'].max(), 2))
+            plt.xlabel('Time (h)')
+        elif tunit == 'm':
+            plt.scatter(df['Time (min)'], df['Gas uptake (mol of gas / mol of water)'], color='black')
+            plt.xlim(0, df['Time (min)'].iloc[-1])
+            plt.ylim(0, round(df['Gas uptake (mol of gas / mol of water)'].max() + 0.4 * df['Gas uptake (mol of gas / mol of water)'].max(), 2))
+            plt.xlabel('Time (min)')
+        elif tunit == 's':
+            plt.scatter(df['Time (s)'], df['Gas uptake (mol of gas / mol of water)'], color='black')
+            plt.xlim(0, df['Time (s)'].iloc[-1])
+            plt.ylim(0 , round(df['Gas uptake (mol of gas / mol of water)'].max() + 0.4 * df['Gas uptake (mol of gas / mol of water)'].max(), 2))
+            plt.xlabel('Time (s)')
+        plt.ylabel('Gas uptake (mol of gas / mol of water)')
+        plt.tight_layout()
+
+        if include_title == 'y' or include_title == 'Y':
+            plt.title(str(file_list[file_number]))
+        elif include_title == 'n' or include_title == 'N':
+            pass
+        else:
+            print('ERROR Incorrect input. Please enter "y" or "n".')
+            sys.exit()
+
+        # Save figure
+        if output_file_type == 'png':
+            plt.savefig(str(file_list[file_number]).replace('.csv', '.png'), dpi=300, bbox_inches='tight')
+        elif output_file_type == 'pdf':
+            plt.savefig(str(file_list[file_number]).replace('.csv', '.pdf'), bbox_inches='tight')
+        elif output_file_type == 'svg':
+            plt.savefig(str(file_list[file_number]).replace('.csv', '.svg'), bbox_inches='tight')
+        else:
+            print('ERROR Incorrect input. Please enter "png", "pdf", or "svg".')
+            sys.exit()
+
+        print("INFO The scatter graph was successfully saved! Please check the target folder.")
+
     else:
-        print('ERROR Incorrect input. Please enter "png", "pdf", or "svg".')
+        print('ERROR Incorrect input. Please enter "line" or "scatter".')
         sys.exit()
-
-    print("INFO The graph was successfully saved! Please check the target folder.")
     ###############GRAPH PLOTTER################
 
 if __name__ == "__main__":
