@@ -129,7 +129,8 @@ $$Tr = \frac{T}{T_c}, \quad Pr = \frac{P}{P_c}$$
 $$a = 0.45724 \frac{R^2 T_c^{2}}{P_c} \omega, \quad b = 0.07780 \frac{RT_c}{P_c}$$
 $$\kappa = 0.37464 + 1.54226\omega - 0.26992\omega^2$$
 $$\alpha = (1 + \kappa(1 - \sqrt{T_r}))^2$$
-$$z, where \space z^3 - (1 - B)z^2 + (A - 2B - 3B^2)z - AB - B^2 - B^3= 0$$
+$$A = \frac{\alpha a p}{R^2 T^2}, \quad B = \frac{bp}{RT}$$
+$$z, where \space z^3 - (1 - B)z^2 + (A - 2B - 3B^2)z - (AB - B^2 - B^3)= 0$$
 Where $T$ is the experimental temperature, $T_c$ is the critical temperature, $P$ is the experimental pressure, $P_c$ is the critical pressure, $R$ is the gas constant, and $\omega$ is the acentric factor. $a$, $b$, $\kappa$, and $\alpha$ are the parameters of the Peng-Robinson EOS.
 The z value is also calculated by using the Newton's method.
 
