@@ -26,6 +26,7 @@ $ pip3 install autogasuptake
 ```
 
 ## **How to Use**
+### **1. Change your `settings.txt` file**
 After installing **Autogasuptake**, you can execute it right in the terminal. 
 But before you use it, you need to prepare csv files from your experimental data (mainly came from the LabVIEW program). Note that LabVIEW program exports the data in a csv file with space as the delimiter. It looks like this: 
 ```
@@ -83,6 +84,9 @@ tunit = h
 # Whether to decorate the graph with research figure style (options: y, n) 
 graph-decorate = y 
 
+# Plot type (options: line, scatter) 
+plot-type = line 
+
 # Whether to include the title in the graph (options: y, n) 
 include-title = y 
 
@@ -91,12 +95,22 @@ output-file-type = png
 
 # Equation of state model (options: rk, pr) 
 eos = rk 
-```
-Basically, you should choose your interested gas and find its critical temperture, critical pressure, and acentric factor. And carefully modify `settings.txt` file according to your found values. The demo `settings.txt` file is written for the calculation of gas uptake of $CO_2$ molecules. After then, you can choose whether to decorate the graph with research figure style, whether to include the title in the graph, and the output file type. Especially, if you choose `y` for the graph decoration, the program will change the font-style, font-size, and line-width of the graph. If you write `n` for the graph decoration, the plot will be exported with the default style. If you want to know more about the <i>decorated</i> style and the <i>default</i> style, refer to the below comparison.
 
-(n) Default style | (y) Decorated style
-:-------------------------:|:-------------------------:
-<img src="https://github.com/wjgoarxiv/Autogasuptake/blob/56c7439fd725e2c75bba75cbc0e38537a7f80f63/withoutDECO.png"/> | <img src="https://github.com/wjgoarxiv/Autogasuptake/blob/56c7439fd725e2c75bba75cbc0e38537a7f80f63/withDECO.png"/> 
+# Water mass you used in the experiment (in g) 
+water-mass = 30 
+```
+* Basically, you should choose your interested gas and find its critical temperture, critical pressure, and acentric factor. And carefully modify `settings.txt` file according to your found values. Note that the demo `settings.txt` file is written for the calculation of gas uptake of $CO_2$ molecules. 
+* After then, you can choose whether to decorate the graph with research figure style, whether to include the title in the graph, and the output file type. Especially, if you choose `y` for the graph decoration, the program will change the font-style, font-size, and line-width of the graph. If you write `n` for the graph decoration, the plot will be exported with the default style. If you want to know more about the <i>decorated</i> style and the <i>default</i> style, refer to the below comparison.
+  (n) Default style | (y) Decorated style
+  :-------------------------:|:-------------------------:
+  <img src="https://github.com/wjgoarxiv/Autogasuptake/blob/56c7439fd725e2c75bba75cbc0e38537a7f80f63/withoutDECO.png"/> | <img src="https://github.com/wjgoarxiv/Autogasuptake/blob/56c7439fd725e2c75bba75cbc0e38537a7f80f63/withDECO.png"/> 
+* You can also choose the equation of state model you want to use. Currently, the program supports two EOS models: Redlich-Kwong (RK) and Peng-Robinson (PR). The detailed information about the EOS models is given in the below section.
+* The plot type can be either `line` or `scatter`. 
+    (line) Line plot | (scatter) Scatter plot
+  :-------------------------:|:-------------------------:
+  <img src="https://github.com/wjgoarxiv/Autogasuptake/blob/5ea55edec6fd2e075a1f7b91ab327ab2411621e4/line.png"/> | <img src="https://github.com/wjgoarxiv/Autogasuptake/blob/5ea55edec6fd2e075a1f7b91ab327ab2411621e4/scatter.png"/>
+  * If you choose `line`, the program will plot the gas uptake data with a line. Consecutively, the program will ask the line width that you want to use.
+  * If you choose `scatter`, the program will plot the gas uptake data with a scatter plot. Consecutively, the program will ask the total number of points that you want to include in the plot. The program will divide the total number of points by the number of data points you have, and then plot the data points with the same interval.
 
 Now, leftover is to see the automated calculation and visualization of your gas uptake data. ENJOY
 
