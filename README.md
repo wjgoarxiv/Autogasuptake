@@ -63,40 +63,43 @@ The exported `settings.txt` file looks like this:
 directory = ./ 
 
 # Data collection frequency (in ms); the value when you set in the LabVIEW program. 
-frequency = 60000 
+frequency = 300000
 
 # Experimental temperature (in K) 
 temperature = 276.3 
 
 # Critical temperature of your interested gas (in K) 
-tc = 304.1 
+tc = 209.5389
 
 # Critical pressure of your interested gas (in bar) 
-pc = 73.8 
+pc = 55.034
 
 # Acentric factor of your interested gas 
-omega = 0.239 
+omega = 0 
 
 # Time unit (h, m, or s) 
-tunit = h 
+tunit = m
 
 # Whether to decorate the graph with research figure style (options: y, n) 
-graph-decorate = y 
+graph-decorate = y
 
 # Plot type (options: line, scatter) 
-plot-type = line 
+plot-type = scatter
 
 # Whether to include the title in the graph (options: y, n) 
-include-title = y 
+include-title = n
 
 # Output file type (options: png, pdf, svg) 
 output-file-type = png 
 
 # Equation of state model (options: rk, pr) 
-eos = rk 
+eos = pr 
 
 # Water mass you used in the experiment (in g) 
-water-mass = 30 
+water-mass = 50
+
+# Type of the hydrate (options: sI, sII, sH, and none)
+hydrate-type = sII
 ```
 * Basically, you should choose your interested gas and find its critical temperture, critical pressure, and acentric factor. And carefully modify `settings.txt` file according to your found values. Note that the demo `settings.txt` file is written for the calculation of gas uptake of $CO_2$ molecules. 
 * After then, you can choose whether to decorate the graph with research figure style, whether to include the title in the graph, and the output file type. Especially, if you choose `y` for the graph decoration, the program will change the font-style, font-size, and line-width of the graph. If you write `n` for the graph decoration, the plot will be exported with the default style. If you want to know more about the <i>decorated</i> style and the <i>default</i> style, refer to the below comparison.
@@ -141,6 +144,9 @@ The z value is also calculated by using the Newton's method.
 The gas uptake (mol of gas / mol of water) is simply calculated by using the following equation: 
 $$\frac{n_{gas}}{n_{water}} = \frac{P_{exp}\Delta{V}}{zRT_{exp}}\frac{1}{\frac{m_{water}}{M_{water}}}$$
 Where $n_{gas}$ is the number of gas molecules, $n_{water}$ is the number of water molecules, $P_{exp}$ is the experimental pressure, $\Delta{V}$ is the volume change in ISCO syringe pump, $z$ is the compressibility factor, $R$ is the gas constant, $T_{exp}$ is the experimental temperature, $m_{water}$ is the mass of water, and $M_{water}$ is the molar mass of water.
+
+### **Theoretical maximum gas uptake value calculation**
+When the user
 
 ## **License**
 - MIT License
