@@ -1,19 +1,5 @@
 #!/usr/bin/env python3 
 
-###############
-### DESCRIPTION ###
-###############
-"""
-This script is designed to automate the process of processing and plotting the gas uptake data from the experiments. 
-
-# Available functions
-1. Treat the raw data file (`.csv`) as a pandas dataframe
-2. Calculate the gas uptake using the consumed volume and the EOS model. 
-3. Considering the data collection frequency, plot the gas uptake data as a function of time.
-4. Save the gas uptake plot as a `.png` file. 
-...
-"""
-
 # Import libraries
 import time
 import pandas as pd
@@ -74,10 +60,10 @@ def main():
                         output_file_type = line[1].strip()
                     elif line[0].strip() == 'eos':
                         eos = line[1].strip()
-                    elif line[0].strip() == 'stdev':
-                        stdev = line[1].strip()
                     elif line[0].strip() == 'water-mass':
                         water_mass = float(line[1].strip())
+                    elif line[0].strip() == 'hydrate-type':
+                        hyd_type = line[1].strip()
 
         # Check the validity of the settings
         if not os.path.isdir(input_dirloc):
@@ -164,6 +150,10 @@ def main():
             f.write("\n")
             f.write("# Water mass you used in the experiment (in g) \n")
             f.write("water-mass = 30 \n")
+            f.write("\n")
+            f.write("# Type of the hydrate (options: sI, sII, sH, and none) \n")
+            f.write("hydrate-type = sI \n")
+            f.write("\n")
         print('INFO The `settings.txt` file has been created. Please edit the file and run the program again.')
         sys.exit()
 
@@ -190,6 +180,7 @@ def main():
     print('* Equation of state model: ', eos)
     print('* Water mass: ', water_mass, 'g')
     print('* Water mol number: ', cal_water_mol, 'mol')
+    print('* Type of the hydrate: ', hyd_type)
 
     print('---------------------------------------------------------')
     print('INFO If these options are not correct, please adjust them in the `settings.txt` file.')
@@ -283,8 +274,11 @@ def main():
         print("ERROR The program will stop.")
         exit()
 
-    # Make a dataframe from the csv file
-    df = pd.read_csv(file_list[file_number], header=None, sep=' ', names=['Pressure (psi)', 'Cylinder volume (mL)'])
+    # Checking data type whether it is object or not. If it is float64, the delimiter is ','. If it is object, the delimiter is ' '.
+    if pd.read_csv(file_list[file_number], header=None, names=['Pressure (psi)', 'Cylinder volume (mL)']).dtypes[0] == 'float64':
+        df = pd.read_csv(file_list[file_number], header=None, sep=',', names=['Pressure (psi)', 'Cylinder volume (mL)'])
+    elif pd.read_csv(file_list[file_number], header=None, names=['Pressure (psi)', 'Cylinder volume (mL)']).dtypes[0] == 'object':
+        df = pd.read_csv(file_list[file_number], header=None, sep=' ', names=['Pressure (psi)', 'Cylinder volume (mL)'])
 
     # Pressure unit conversion 
     df['Pressure (bar)'] = df['Pressure (psi)'] * 0.0689475729
@@ -405,7 +399,17 @@ def main():
 
         # Font settings
         rcParams['font.family'] = 'sans-serif'
-        rcParams['font.sans-serif'] = ['Arial']
+
+        # Check whether Arial or SF Pro Display are installed in the computer
+        try:
+            rcParams['font.sans-serif'] = ['SF Pro Display']
+        except:
+            try:
+                rcParams['font.sans-serif'] = ['Arial']
+            except:
+                print("ERROR Note that Arial and SF Pro are not installed in the computer. The program will use the default font.")
+                pass
+        
         rcParams['font.size'] = 14
         rcParams['axes.titlepad'] = 10
         rcParams['axes.titleweight'] = 'bold'
@@ -462,6 +466,26 @@ def main():
         else: 
             print('ERROR Incorrect input. Please enter "y" or "n".')
             sys.exit()
+        
+        # Plotting the theoretical maximum value of gas uptake with a dotted line
+        # For sI hydrate, 6S2L / 46 H2O = 0.1739
+        # For sII hydrate, 16S8L / 136 H2O = 0.1765
+        # For sH hydrate, 3S2M1L / 34 H2O = 0.1765
+
+        if hyd_type == 'sI':
+            plt.axhline(y=0.1739, color='black', linestyle='--', linewidth=1.5)
+            plt.text(3, 0.176, 'Theoretical maximum value of gas uptake', color='black', fontsize=10)
+        elif hyd_type == 'sII':
+            plt.axhline(y=0.1765, color='black', linestyle='--', linewidth=1.5)
+            plt.text(3, 0.18, 'Theoretical maximum value of gas uptake', color='black', fontsize=10)
+        elif hyd_type == 'sH':
+            plt.axhline(y=0.1765, color='black', linestyle='--', linewidth=1.5)
+            plt.text(3, 0.18, 'Theoretical maximum value of gas uptake', color='black', fontsize=10)
+        elif hyd_type == 'none':
+            pass
+        else: 
+            print('ERROR Incorrect input. Please enter "sI", "sII", "sH", or "none".')
+            sys.exit()
 
         # Save figure
         if output_file_type == 'png':
@@ -504,6 +528,26 @@ def main():
             print('ERROR Incorrect input. Please enter "y" or "n".')
             sys.exit()
 
+        # Plotting the theoretical maximum value of gas uptake with a dotted line
+        # For sI hydrate, 6S2L / 46 H2O = 0.1739
+        # For sII hydrate, 16S8L / 136 H2O = 0.1765
+        # For sH hydrate, 3S2M1L / 34 H2O = 0.1765
+
+        if hyd_type == 'sI':
+            plt.axhline(y=0.1739, color='black', linestyle='--', linewidth=1.5)
+            plt.text(3, 0.176, 'Theoretical maximum value of gas uptake', color='black', fontsize=10)
+        elif hyd_type == 'sII':
+            plt.axhline(y=0.1765, color='black', linestyle='--', linewidth=1.5)
+            plt.text(3, 0.18, 'Theoretical maximum value of gas uptake', color='black', fontsize=10)
+        elif hyd_type == 'sH':
+            plt.axhline(y=0.18, color='black', linestyle='--', linewidth=1.5)
+            plt.text(3, 0.2, 'Theoretical maximum value of gas uptake', color='black', fontsize=10)
+        elif hyd_type == 'none':
+            pass
+        else: 
+            print('ERROR Incorrect input. Please enter "sI", "sII", "sH", or "none".')
+            sys.exit()
+
         # Save figure
         if output_file_type == 'png':
             plt.savefig(str(file_list[file_number]).replace('.csv', '.png'), dpi=300, bbox_inches='tight')
@@ -521,6 +565,17 @@ def main():
         print('ERROR Incorrect input. Please enter "line" or "scatter".')
         sys.exit()
     ###############GRAPH PLOTTER################
+
+    ###############DATA EXPORTER################
+    # Export gas uptake data & miscellaneous info. into a new csv file in the target folder
+    def data_exporter():
+        # Create a new csv file
+        df.to_csv(str(file_list[file_number]).replace('.csv', '_OUTDATA.csv'), header=True, index=True)
+        print("INFO The gas uptake data was successfully exported! Please check the target folder.")
+
+    # Execute
+    data_exporter()
+    ###############DATA EXPORTER################
 
 if __name__ == "__main__":
     main()
