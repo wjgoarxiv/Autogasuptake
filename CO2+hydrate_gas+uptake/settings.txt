@@ -1,0 +1,49 @@
+###################################
+############ SETTINGS.TXT #############
+###################################
+# NOTE: This file should be located in the directory where you are executing the program. This can be done by typing `pwd` in the terminal. Check your current location. 
+# NOTE: You can mark `#` in front of the lines you don't want to use. 
+# NOTE: This file should be named as `settings.txt`. If isn't, the program cannot load the settings. 
+
+###########################################################
+# Target directory where the raw data files are located. 
+directory = ./ 
+
+# Data collection frequency (in ms); the value when you set in the LabVIEW program. 
+frequency = 60000 
+
+# Experimental temperature (in K) 
+temperature = 276.3 
+
+# Critical temperature of your interested gas (in K) 
+tc = 304.1 
+
+# Critical pressure of your interested gas (in bar) 
+pc = 73.8 
+
+# Acentric factor of your interested gas 
+omega = 0.239 
+
+# Time unit (h, m, or s) 
+tunit = m
+
+# Whether to decorate the graph with research figure style (options: y, n) 
+graph-decorate = y 
+
+# Plot type (options: line, scatter) 
+plot-type = scatter 
+
+# Whether to include the title in the graph (options: y, n) 
+include-title = n
+
+# Output file type (options: png, pdf, svg) 
+output-file-type = png
+
+# Equation of state model (options: rk, pr) 
+eos = pr
+
+# Water mass you used in the experiment (in g) 
+water-mass = 30 
+
+# Type of the hydrate (options: sI, sII, sH, and none) 
+hydrate-type = sI 
