@@ -28,7 +28,7 @@ $ pip3 install autogasuptake
 ## **How to Use**
 ### **(1) Graph plotting**
 After installing **Autogasuptake**, you can execute it right in the terminal. 
-But before you use it, you need to prepare csv files from your experimental data (mainly came from the LabVIEW program). Note that LabVIEW program exports the data in a csv file with space as the delimiter (but it's ok if you use comma (',') as delimiter. The program recognizes this and proceeds with data processing normally). It looks like this: 
+But before you use it, you need to prepare csv files from your experimental data (mainly came from the LabVIEW program). Note that LabVIEW program exports the data in a csv file with space as the delimiter (but it's ok if you use comma (',') as delimiter. The program automatically recognizes this and proceeds with data processing normally). It looks like this: 
 ```
 570.000000 406.754852
 569.799988 406.006744
