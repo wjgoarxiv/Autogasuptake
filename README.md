@@ -152,7 +152,7 @@ $$\frac{n_{gas}}{n_{water}} = \frac{P_{exp}\Delta{V}}{zRT_{exp}}\frac{1}{\frac{m
 Where $n_{gas}$ is the number of gas molecules, $n_{water}$ is the number of water molecules, $P_{exp}$ is the experimental pressure, $\Delta{V}$ is the volume change in ISCO syringe pump, $z$ is the compressibility factor, $R$ is the gas constant, $T_{exp}$ is the experimental temperature, $m_{water}$ is the mass of water, and $M_{water}$ is the molar mass of water.
 
 ### **Theoretical maximum gas uptake value calculation**
-When the user select the `hydrate-type` option as sI, sII, and sH, the program will calculate the theoretical maximum gas uptake value. The program uses the following equation to calculate the theoretical maximum gas uptake value:
+When the user select the `hydrate-type` option as `sI`, `sII`, and `sH`, the program will calculate the theoretical maximum gas uptake value. The program uses the following equation to calculate the theoretical maximum gas uptake value:
 $$(sI) \space 2S·6L·46H_2O → \frac{8}{46} = 0.1739$$
 $$(sII) \space 8S·16L·136H_2O → \frac{24}{136} = 0.1765$$
 $$(sH) \space 3S·2M·1L·34H_2O → \frac{6}{34} = 0.1765$$
@@ -161,6 +161,108 @@ Where $S$ stands for the small cage, $M$ stands for the medium cage, and $L$ sta
 |:-------------------------:|:-------------------------:|
 | <img src="https://github.com/wjgoarxiv/Autogasuptake/blob/fdcba57b15e9f03b0291c86239447776345dbeba/hydrate-type=on.png"/> | <img src="https://github.com/wjgoarxiv/Autogasuptake/blob/fdcba57b15e9f03b0291c86239447776345dbeba/hydrate-type=none.png" /> |
 
+> ## **For advanced users**
+> By utilizing the bash script, you can automate the sequence to treat several `.csv` files in your target folder. But make sure to check if it is okay to use the same `settings.txt` to treat your raw CSV files.
+
+> Let's see the example. 
+> ```
+> .
+> ├── Raw1.csv
+> ├── Raw2.csv
+> ├── Raw3.csv
+> ├── Raw4.csv
+> └── settings.txt
+> ```
+> I put 4 raw csv files in the same directory with the pre-written `settings.txt` file. It looks like this: 
+> ```
+> ###################################
+> ############ SETTINGS.TXT #############
+> ###################################
+> # NOTE: This file should be located in the directory where you are executing the program. This can be done by typing `pwd` in the terminal. Check your current location. 
+> # NOTE: You can mark `#` in front of the lines you don't want to use. 
+> # NOTE: This file should be named as `settings.txt`. If isn't, the program cannot load the settings. 
+>
+> ###########################################################
+> # Target directory where the raw data files are located. 
+> directory = ./ 
+>
+> # Data collection frequency (in ms); the value when you set in the LabVIEW program. 
+> frequency = 300000
+>
+> # Experimental temperature (in K) 
+> temperature = 276.3 
+>
+> # Critical temperature of your interested gas (in K) 
+> tc = 209.5389
+>
+> # Critical pressure of your interested gas (in bar) 
+> pc = 55.034
+>
+> # Acentric factor of your interested gas 
+> omega = 0 
+>
+> # Time unit (h, m, or s) 
+> tunit = m
+>
+> # Whether to decorate the graph with research figure style (options: y, n) 
+> graph-decorate = y
+>
+> # Plot type (options: line, scatter) 
+> plot-type = scatter
+>
+> # Whether to include the title in the graph (options: y, n) 
+> include-title = n
+> 
+> # Output file type (options: png, pdf, svg) 
+> output-file-type = png 
+>
+> # Equation of state model (options: rk, pr) 
+> eos = pr 
+> 
+> # Water mass you used in the experiment (in g) 
+> water-mass = 50
+> 
+> # Type of the hydrate (options: sI, sII, sH, and none)
+> hydrate-type = sII
+> ```
+> Note that the gas type used in those raw files is $Kr$. I wrote every $T_c$, $P_c$, $\omega$ values for $Kr$, and I chose EOS as Peng-Robinson. Kr hydrate is known as sII structure, therefore, I wrote `hydrate-type` as `sII`. For the scatter plot, I chose to contain 50 points of data in every plot. The automation code looks like this: 
+> ```
+> #!/bin/bash
+> # advanced.sh
+> for filenum in 0 2 4 6
+> do
+>   autogasuptake << EOF
+>   $filenum
+>   50
+> EOF
+> done
+> ```
+> Unfortunately, `autogasuptake` cannot distinguish output CSV data exported from running it. Thus, we might use the even number while the sequence loops. 
+> The overall files inside the current directory might be like this:
+> ```
+> .
+> ├── Raw1.csv
+> ├── Raw1.png
+> ├── Raw1_OUTDATA.csv
+> ├── Raw2.csv
+> ├── Raw2.png
+> ├── Raw2_OUTDATA.csv
+> ├── Raw3.csv
+> ├── Raw3.png
+> ├── Raw3_OUTDATA.csv
+> ├── Raw4.csv
+> ├── Raw4.png
+> ├── Raw4_OUTDATA.csv
+> ├── advanced.sh
+> └── settings.txt
+> ```
+> The output looks like this: 
+> | Raw 1 | Raw 2 | Raw 3 | Raw 4 |
+> |:------:|:------:|:------:|:------:|
+> | <img src="https://github.com/wjgoarxiv/Autogasuptake/blob/a879e1927c2dcd43fb4414c1bc6286a58f812d2b/Advanced_Ex_Kr/Raw1.png"/> | <img src="https://github.com/wjgoarxiv/Autogasuptake/blob/a879e1927c2dcd43fb4414c1bc6286a58f812d2b/Advanced_Ex_Kr/Raw2.png"/> | <img src="https://github.com/wjgoarxiv/Autogasuptake/blob/a879e1927c2dcd43fb4414c1bc6286a58f812d2b/Advanced_Ex_Kr/Raw3.png"/> | <img src="https://github.com/wjgoarxiv/Autogasuptake/blob/a879e1927c2dcd43fb4414c1bc6286a58f812d2b/Advanced_Ex_Kr/Raw4.png"/> |
+> 
+> You can also refer to the folder entitled `Advanced_Ex_Kr`. 
+ 
 ## **License**
 - MIT License
 
