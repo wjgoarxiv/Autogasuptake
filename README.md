@@ -143,7 +143,10 @@ $$z, where \space z^3 - (1 - B)z^2 + (A - 2B - 3B^2)z - (AB - B^2 - B^3)= 0$$
 Where $T$ is the experimental temperature, $T_c$ is the critical temperature, $P$ is the experimental pressure, $P_c$ is the critical pressure, $R$ is the gas constant, and $\omega$ is the acentric factor. $a$, $b$, $\kappa$, and $\alpha$ are the parameters of the Peng-Robinson EOS.
 The z value is also calculated by using the Newton's method.
 
-- [Reference](https://en.m.wikipedia.org/wiki/Cubic_equations_of_state#Peng%E2%80%93Robinson_equation_of_state)
+#### References for these EOSs
+- A huge thanks for @CorySimon making the [Peng-Robinson Equation of State solver](https://github.com/CorySimon/PREOS). It was helpful to make a function for Peng-Robinson EOS.
+- [PR Wikipedia](https://en.m.wikipedia.org/wiki/Cubic_equations_of_state#Peng%E2%80%93Robinson_equation_of_state)
+- [RK Wikipedia](https://en.wikipedia.org/wiki/Redlich%E2%80%93Kwong_equation_of_state)
 
 ## **Equations used**
 ### **Gas uptake equation**
