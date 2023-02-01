@@ -146,7 +146,14 @@ $$\frac{n_{gas}}{n_{water}} = \frac{P_{exp}\Delta{V}}{zRT_{exp}}\frac{1}{\frac{m
 Where $n_{gas}$ is the number of gas molecules, $n_{water}$ is the number of water molecules, $P_{exp}$ is the experimental pressure, $\Delta{V}$ is the volume change in ISCO syringe pump, $z$ is the compressibility factor, $R$ is the gas constant, $T_{exp}$ is the experimental temperature, $m_{water}$ is the mass of water, and $M_{water}$ is the molar mass of water.
 
 ### **Theoretical maximum gas uptake value calculation**
-When the user
+When the user select the `hydrate-type` option as sI, sII, and sH, the program will calculate the theoretical maximum gas uptake value. The program uses the following equation to calculate the theoretical maximum gas uptake value:
+$$ (sI) \space 2S·6L·46H_2O → \frac{8}{46} = 0.1739$$
+$$ (sII) \space 8S·16L·136H_2O → \frac{24}{136} = 0.1765$$
+$$ (sH) \space 3S·2M·1L·34H_2O → \frac{6}{34} = 0.1765$$
+Where $S$ stands for the small cage, $M$ stands for the medium cage, and $L$ stands for the large cage. If you don't want to mark the theoretical maximum gas uptake value in your plot, you can simply select the `hydrate-type` option as `none`.
+| When `hydrate-type` is on | When `hydrate-type` is `none` |
+|:-------------------------:|:-------------------------:|
+| <img src=""/> | <img src="" /> |
 
 ## **License**
 - MIT License
