@@ -153,7 +153,7 @@ $$ (sH) \space 3S·2M·1L·34H_2O → \frac{6}{34} = 0.1765$$
 Where $S$ stands for the small cage, $M$ stands for the medium cage, and $L$ stands for the large cage. If you don't want to mark the theoretical maximum gas uptake value in your plot, you can simply select the `hydrate-type` option as `none`.
 | When `hydrate-type` is on | When `hydrate-type` is `none` |
 |:-------------------------:|:-------------------------:|
-| <img src=""/> | <img src="" /> |
+| <img src="https://github.com/wjgoarxiv/Autogasuptake/blob/fdcba57b15e9f03b0291c86239447776345dbeba/hydrate-type=on.png"/> | <img src="https://github.com/wjgoarxiv/Autogasuptake/blob/fdcba57b15e9f03b0291c86239447776345dbeba/hydrate-type=none.png" /> |
 
 ## **License**
 - MIT License
