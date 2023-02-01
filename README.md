@@ -99,8 +99,8 @@ eos = pr
 # Water mass you used in the experiment (in g) 
 water-mass = 50
 
-# Type of the hydrate (options: sI, sII, sH, and none)
-hydrate-type = sII
+# Type of the clathrate (options: sI, sII, sH, SCS-I, TS–I, HS-I, and none)
+clathrate-type = sII
 ```
 * Basically, you should choose your interested gas and find its critical temperture, critical pressure, and acentric factor. And carefully modify `settings.txt` file according to your found values. Note that the demo `settings.txt` file is written for the calculation of gas uptake of $CO_2$ molecules. 
 * After then, you can choose whether to decorate the graph with research figure style, whether to include the title in the graph, and the output file type. Especially, if you choose `y` for the graph decoration, the program will change the font-style, font-size, and line-width of the graph. If you write `n` for the graph decoration, the plot will be exported with the default style. If you want to know more about the <i>decorated</i> style and the <i>default</i> style, refer to the below comparison.
@@ -116,7 +116,7 @@ hydrate-type = sII
   * If you choose `scatter`, the program will plot the gas uptake data with a scatter plot. Consecutively, the program will ask the total number of points that you want to include in the plot. The program will divide the total number of points by the number of data points you have, and then plot the data points with the same interval.
 
 ### **(2) Making a new output CSV**
-After the program outputs the graph, it collects the processed data and creates a new CSV file to provide to the user. After the program runs, check the target directory again. You can check the output file in the form below.
+After the program outputs the graph, it collects the processed data and creates a new CSV file to provide to the user. After the program runs, check the target directory again. The file looks like this:
 Pressure (psi) | Cylinder volume (mL) |	Pressure (bar) | Cylinder volume (L) | Time (min) | Delta_V (L) | Gas uptake (mol of gas) | Gas uptake (mol of gas / mol of water)
  :-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:|
  | ... | ... | ... | ... | ... | ... | ... | ... |
@@ -155,12 +155,18 @@ $$\frac{n_{gas}}{n_{water}} = \frac{P_{exp}\Delta{V}}{zRT_{exp}}\frac{1}{\frac{m
 Where $n_{gas}$ is the number of gas molecules, $n_{water}$ is the number of water molecules, $P_{exp}$ is the experimental pressure, $\Delta{V}$ is the volume change in ISCO syringe pump, $z$ is the compressibility factor, $R$ is the gas constant, $T_{exp}$ is the experimental temperature, $m_{water}$ is the mass of water, and $M_{water}$ is the molar mass of water.
 
 ### **Theoretical maximum gas uptake value calculation**
-When the user select the `hydrate-type` option as `sI`, `sII`, and `sH`, the program will calculate the theoretical maximum gas uptake value. The program uses the following equation to calculate the theoretical maximum gas uptake value:
+When the user select the `clathrate-type` option as `sI`, `sII`, `sH`, `SCS-I`, `TS-I`, and `HS-I`, the program will calculate the theoretical maximum gas uptake value. The program uses the following equation to calculate the theoretical maximum gas uptake value:
 $$(sI) \space 2S·6L·46H_2O → \frac{8}{46} = 0.1739$$
 $$(sII) \space 8S·16L·136H_2O → \frac{24}{136} = 0.1765$$
 $$(sH) \space 3S·2M·1L·34H_2O → \frac{6}{34} = 0.1765$$
-Where $S$ stands for the small cage, $M$ stands for the medium cage, and $L$ stands for the large cage. If you don't want to mark the theoretical maximum gas uptake value in your plot, you can simply select the `hydrate-type` option as `none`.
-| When `hydrate-type` is on | When `hydrate-type` is `none` |
+$$(SCS-I) \space 48T·16D·368H_2O → \frac{16}{368} = 0.0435$$
+$$(TS-I) \space 4P·16T·10D·172H_2O → \frac{10}{172} = 0.0581$$
+$$(HS-I) \space 4P·4T·6D·80H_2O → \frac{6}{80} = 0.0750$$ 
+
+Where $S$ stands for the small cage, $M$ stands for the medium cage, and $L$ stands for the large cage. For semi-clathrates, $D$ stands for the pentagon-dodecahedron cage, $P$ stands for the pentadecahedron cage, and $T$ stands for the tetradecahedron cage. 
+
+If you don't want to mark the theoretical maximum gas uptake value in your plot, you can simply select the `clathrate-type` option as `none`.
+| When `clathrate-type` is on | When `clathrate-type` is `none` |
 |:-------------------------:|:-------------------------:|
 | <img src="https://github.com/wjgoarxiv/Autogasuptake/blob/fdcba57b15e9f03b0291c86239447776345dbeba/hydrate-type=on.png"/> | <img src="https://github.com/wjgoarxiv/Autogasuptake/blob/fdcba57b15e9f03b0291c86239447776345dbeba/hydrate-type=none.png" /> |
 
@@ -225,10 +231,10 @@ Where $S$ stands for the small cage, $M$ stands for the medium cage, and $L$ sta
 > # Water mass you used in the experiment (in g) 
 > water-mass = 50
 > 
-> # Type of the hydrate (options: sI, sII, sH, and none)
-> hydrate-type = sII
+> # Type of the clathrate (options: sI, sII, sH, SCS-I, TS–I, HS-I, and none)
+> clathrate-type = sII
 > ```
-> Note that the gas type used in those raw files is $Kr$. I wrote every $T_c$, $P_c$, $\omega$ values for $Kr$, and I chose EOS as Peng-Robinson. Kr hydrate is known as sII structure, therefore, I wrote `hydrate-type` as `sII`. For the scatter plot, I chose to contain 50 points of data in every plot. The automation code looks like this: 
+> Note that the gas type used in those raw files is $Kr$. I wrote every $T_c$, $P_c$, $\omega$ values for $Kr$, and I chose EOS as Peng-Robinson. Kr hydrate is known as sII structure, therefore, I wrote `clathrate-type` as `sII`. For the scatter plot, I chose to contain 50 points of data in every plot. The automation code looks like this: 
 > ```bash
 > #!/bin/bash
 > # advanced.sh
