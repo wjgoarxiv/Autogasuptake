@@ -26,6 +26,7 @@ $ pip3 install autogasuptake
 ```
 
 ## **How to Use**
+### **(1) Graph plotting**
 After installing **Autogasuptake**, you can execute it right in the terminal. 
 But before you use it, you need to prepare csv files from your experimental data (mainly came from the LabVIEW program). Note that LabVIEW program exports the data in a csv file with space as the delimiter. It looks like this: 
 ```
@@ -114,7 +115,12 @@ hydrate-type = sII
   * If you choose `line`, the program will plot the gas uptake data with a line. Consecutively, the program will ask the line width that you want to use.
   * If you choose `scatter`, the program will plot the gas uptake data with a scatter plot. Consecutively, the program will ask the total number of points that you want to include in the plot. The program will divide the total number of points by the number of data points you have, and then plot the data points with the same interval.
 
-Now, leftover is to see the automated calculation and visualization of your gas uptake data. ENJOY
+### **(2) Making a new output CSV**
+After the program outputs the graph, it collects the processed data and creates a new CSV file to provide to the user. After the program runs, check the target directory again. You can check the output file in the form below.
+Pressure (psi) | Cylinder volume (mL) |	Pressure (bar) | Cylinder volume (L) | Time (min) | Delta_V (L) | Gas uptake (mol of gas) | Gas uptake (mol of gas / mol of water)
+ :-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:|
+ | ... | ... | ... | ... | ... | ... | ... | ... |
+
 
 ## **Equation of State (EOS) information**
 ### **Redlich-Kwong (RK) EOS**
