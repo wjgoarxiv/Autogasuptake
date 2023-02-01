@@ -264,7 +264,7 @@ Where $S$ stands for the small cage, $M$ stands for the medium cage, and $L$ sta
 > |:------:|:------:|:------:|:------:|
 > | <img src="https://github.com/wjgoarxiv/Autogasuptake/blob/a879e1927c2dcd43fb4414c1bc6286a58f812d2b/Advanced_Ex_Kr/Raw1.png"/> | <img src="https://github.com/wjgoarxiv/Autogasuptake/blob/a879e1927c2dcd43fb4414c1bc6286a58f812d2b/Advanced_Ex_Kr/Raw2.png"/> | <img src="https://github.com/wjgoarxiv/Autogasuptake/blob/a879e1927c2dcd43fb4414c1bc6286a58f812d2b/Advanced_Ex_Kr/Raw3.png"/> | <img src="https://github.com/wjgoarxiv/Autogasuptake/blob/a879e1927c2dcd43fb4414c1bc6286a58f812d2b/Advanced_Ex_Kr/Raw4.png"/> |
 > 
-> You can also refer to the folder entitled `Advanced_Ex_Kr`. 
+> You can also refer to the folder entitled `Advanced_Ex_Kr/`. 
  
 ## **License**
 - MIT License
