@@ -536,7 +536,7 @@ def main():
             plt.axhline(y=0.1739, color='black', linestyle='--', linewidth=1.5)
             plt.text(3, 0.176, 'Theoretical maximum value of gas uptake', color='black', fontsize=10)
         elif clath_type == 'sII':
-            plt.axhline(clath_typeclath_typey=0.1765, color='black', linestyle='--', linewidth=1.5)
+            plt.axhline(y=0.1765, color='black', linestyle='--', linewidth=1.5)
             plt.text(3, 0.18, 'Theoretical maximum value of gas uptake', color='black', fontsize=10)
         elif clath_type == 'sH':
             plt.axhline(y=0.1765, color='black', linestyle='--', linewidth=1.5)
