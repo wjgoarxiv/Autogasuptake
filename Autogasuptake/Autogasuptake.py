@@ -478,13 +478,13 @@ def main():
             plt.text(3, 0.18, 'Theoretical maximum value of gas uptake', color='black', fontsize=10)
         elif clath_type == 'SCS-I':
             plt.axhline(y=0.04368, color='black', linestyle='--', linewidth=1.5)
-            plt.text(3, 0.046, 'Theoretical maximum value of gas uptake', color='black', fontsize=10))
+            plt.text(3, 0.046, 'Theoretical maximum value of gas uptake', color='black', fontsize=10)
         elif clath_type == 'TS-I':
             plt.axhline(y=0.05814, color='black', linestyle='--', linewidth=1.5)
-            plt.text(3, 0.061, 'Theoretical maximum value of gas uptake', color='black', fontsize=10))
+            plt.text(3, 0.061, 'Theoretical maximum value of gas uptake', color='black', fontsize=10)
         elif clath_type == 'HS-I':
             plt.axhline(y=0.075, color='black', linestyle='--', linewidth=1.5)
-            plt.text(3, 0.078, 'Theoretical maximum value of gas uptake', color='black', fontsize=10))
+            plt.text(3, 0.078, 'Theoretical maximum value of gas uptake', color='black', fontsize=10)
         elif clath_type == 'none':
             pass
         else: 
@@ -543,13 +543,13 @@ def main():
             plt.text(3, 0.18, 'Theoretical maximum value of gas uptake', color='black', fontsize=10)
         elif clath_type == 'SCS-I':
             plt.axhline(y=0.04368, color='black', linestyle='--', linewidth=1.5)
-            plt.text(3, 0.046, 'Theoretical maximum value of gas uptake', color='black', fontsize=10))
+            plt.text(3, 0.046, 'Theoretical maximum value of gas uptake', color='black', fontsize=10)
         elif clath_type == 'TS-I':
             plt.axhline(y=0.05814, color='black', linestyle='--', linewidth=1.5)
-            plt.text(3, 0.061, 'Theoretical maximum value of gas uptake', color='black', fontsize=10))
+            plt.text(3, 0.061, 'Theoretical maximum value of gas uptake', color='black', fontsize=10)
         elif clath_type == 'HS-I':
             plt.axhline(y=0.075, color='black', linestyle='--', linewidth=1.5)
-            plt.text(3, 0.078, 'Theoretical maximum value of gas uptake', color='black', fontsize=10))
+            plt.text(3, 0.078, 'Theoretical maximum value of gas uptake', color='black', fontsize=10)
         elif clath_type == 'none':
             pass
         else: 
