@@ -17,11 +17,11 @@ You will need below packages to run **Autogasuptake**. But don't worry, you can 
 
 ## **How to Install**
 It is easy to install **Autogasuptake**. Just use `pip` or `pip3` to install it.
-```
+```bash
 $ pip install autogasuptake
 ```
 or 
-```
+```bash
 $ pip3 install autogasuptake
 ```
 
@@ -38,7 +38,7 @@ But before you use it, you need to prepare csv files from your experimental data
 The first column is the pressure (psi) of your system, and the second column is the volumn (mL) of the cylinder. Make sure to remember the location where you save these raw csv files. 
 
 Then, deploy Autogasuptake in your terminal.
-```
+```bash
 $ autogasuptake
 ```
 The program initiates, and firstly asks you to make the `settings.txt` file if you don't have one. 
@@ -51,7 +51,7 @@ If you have already have your own `settings.txt` file, you won't see this messag
 <br>
 
 The exported `settings.txt` file looks like this: 
-```
+```text
 ###################################
 ############ SETTINGS.TXT #############
 ###################################
@@ -229,7 +229,7 @@ Where $S$ stands for the small cage, $M$ stands for the medium cage, and $L$ sta
 > hydrate-type = sII
 > ```
 > Note that the gas type used in those raw files is $Kr$. I wrote every $T_c$, $P_c$, $\omega$ values for $Kr$, and I chose EOS as Peng-Robinson. Kr hydrate is known as sII structure, therefore, I wrote `hydrate-type` as `sII`. For the scatter plot, I chose to contain 50 points of data in every plot. The automation code looks like this: 
-> ```
+> ```bash
 > #!/bin/bash
 > # advanced.sh
 > for filenum in 0 2 4 6
