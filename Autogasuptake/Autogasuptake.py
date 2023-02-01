@@ -62,8 +62,8 @@ def main():
                         eos = line[1].strip()
                     elif line[0].strip() == 'water-mass':
                         water_mass = float(line[1].strip())
-                    elif line[0].strip() == 'hydrate-type':
-                        hyd_type = line[1].strip()
+                    elif line[0].strip() == 'clathrate-type':
+                        clath_type = line[1].strip()
 
         # Check the validity of the settings
         if not os.path.isdir(input_dirloc):
@@ -151,8 +151,8 @@ def main():
             f.write("# Water mass you used in the experiment (in g) \n")
             f.write("water-mass = 30 \n")
             f.write("\n")
-            f.write("# Type of the hydrate (options: sI, sII, sH, and none) \n")
-            f.write("hydrate-type = sI \n")
+            f.write("# Type of the clathrate (options: sI, sII, sH, SCS-I, TS–I, HS-I, and none) \n")
+            f.write("clathrate-type = sI \n")
             f.write("\n")
         print('INFO The `settings.txt` file has been created. Please edit the file and run the program again.')
         sys.exit()
@@ -180,7 +180,7 @@ def main():
     print('* Equation of state model: ', eos)
     print('* Water mass: ', water_mass, 'g')
     print('* Water mol number: ', cal_water_mol, 'mol')
-    print('* Type of the hydrate: ', hyd_type)
+    print('* Type of the clathrate: ', clath_type)
 
     print('---------------------------------------------------------')
     print('INFO If these options are not correct, please adjust them in the `settings.txt` file.')
@@ -466,25 +466,29 @@ def main():
         else: 
             print('ERROR Incorrect input. Please enter "y" or "n".')
             sys.exit()
-        
-        # Plotting the theoretical maximum value of gas uptake with a dotted line
-        # For sI hydrate, 6S2L / 46 H2O = 0.1739
-        # For sII hydrate, 16S8L / 136 H2O = 0.1765
-        # For sH hydrate, 3S2M1L / 34 H2O = 0.1765
 
-        if hyd_type == 'sI':
+        if clath_type == 'sI':
             plt.axhline(y=0.1739, color='black', linestyle='--', linewidth=1.5)
             plt.text(3, 0.176, 'Theoretical maximum value of gas uptake', color='black', fontsize=10)
-        elif hyd_type == 'sII':
+        elif clath_type == 'sII':
+            plt.axhline(clath_typeclath_typey=0.1765, color='black', linestyle='--', linewidth=1.5)
+            plt.text(3, 0.18, 'Theoretical maximum value of gas uptake', color='black', fontsize=10)
+        elif clath_type == 'sH':
             plt.axhline(y=0.1765, color='black', linestyle='--', linewidth=1.5)
             plt.text(3, 0.18, 'Theoretical maximum value of gas uptake', color='black', fontsize=10)
-        elif hyd_type == 'sH':
-            plt.axhline(y=0.1765, color='black', linestyle='--', linewidth=1.5)
-            plt.text(3, 0.18, 'Theoretical maximum value of gas uptake', color='black', fontsize=10)
-        elif hyd_type == 'none':
+        elif clath_type == 'SCS-I':
+            plt.axhline(y=0.04368, color='black', linestyle='--', linewidth=1.5)
+            plt.text(3, 0.046, 'Theoretical maximum value of gas uptake', color='black', fontsize=10))
+        elif clath_type == 'TS-I':
+            plt.axhline(y=0.05814, color='black', linestyle='--', linewidth=1.5)
+            plt.text(3, 0.061, 'Theoretical maximum value of gas uptake', color='black', fontsize=10))
+        elif clath_type == 'HS-I':
+            plt.axhline(y=0.075, color='black', linestyle='--', linewidth=1.5)
+            plt.text(3, 0.078, 'Theoretical maximum value of gas uptake', color='black', fontsize=10))
+        elif clath_type == 'none':
             pass
         else: 
-            print('ERROR Incorrect input. Please enter "sI", "sII", "sH", or "none".')
+            print('ERROR Incorrect input. Please enter "sI", "sII", "sH", "SCS-I", "TS-I", "HS-I", or "none".')
             sys.exit()
 
         # Save figure
@@ -528,24 +532,28 @@ def main():
             print('ERROR Incorrect input. Please enter "y" or "n".')
             sys.exit()
 
-        # Plotting the theoretical maximum value of gas uptake with a dotted line
-        # For sI hydrate, 6S2L / 46 H2O = 0.1739
-        # For sII hydrate, 16S8L / 136 H2O = 0.1765
-        # For sH hydrate, 3S2M1L / 34 H2O = 0.1765
-
-        if hyd_type == 'sI':
+        if clath_type == 'sI':
             plt.axhline(y=0.1739, color='black', linestyle='--', linewidth=1.5)
             plt.text(3, 0.176, 'Theoretical maximum value of gas uptake', color='black', fontsize=10)
-        elif hyd_type == 'sII':
+        elif clath_type == 'sII':
+            plt.axhline(clath_typeclath_typey=0.1765, color='black', linestyle='--', linewidth=1.5)
+            plt.text(3, 0.18, 'Theoretical maximum value of gas uptake', color='black', fontsize=10)
+        elif clath_type == 'sH':
             plt.axhline(y=0.1765, color='black', linestyle='--', linewidth=1.5)
             plt.text(3, 0.18, 'Theoretical maximum value of gas uptake', color='black', fontsize=10)
-        elif hyd_type == 'sH':
-            plt.axhline(y=0.18, color='black', linestyle='--', linewidth=1.5)
-            plt.text(3, 0.2, 'Theoretical maximum value of gas uptake', color='black', fontsize=10)
-        elif hyd_type == 'none':
+        elif clath_type == 'SCS-I':
+            plt.axhline(y=0.04368, color='black', linestyle='--', linewidth=1.5)
+            plt.text(3, 0.046, 'Theoretical maximum value of gas uptake', color='black', fontsize=10))
+        elif clath_type == 'TS-I':
+            plt.axhline(y=0.05814, color='black', linestyle='--', linewidth=1.5)
+            plt.text(3, 0.061, 'Theoretical maximum value of gas uptake', color='black', fontsize=10))
+        elif clath_type == 'HS-I':
+            plt.axhline(y=0.075, color='black', linestyle='--', linewidth=1.5)
+            plt.text(3, 0.078, 'Theoretical maximum value of gas uptake', color='black', fontsize=10))
+        elif clath_type == 'none':
             pass
         else: 
-            print('ERROR Incorrect input. Please enter "sI", "sII", "sH", or "none".')
+            print('ERROR Incorrect input. Please enter "sI", "sII", "sH", "SCS-I", "TS-I", "HS-I", or "none".')
             sys.exit()
 
         # Save figure
