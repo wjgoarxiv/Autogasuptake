@@ -147,9 +147,9 @@ Where $n_{gas}$ is the number of gas molecules, $n_{water}$ is the number of wat
 
 ### **Theoretical maximum gas uptake value calculation**
 When the user select the `hydrate-type` option as sI, sII, and sH, the program will calculate the theoretical maximum gas uptake value. The program uses the following equation to calculate the theoretical maximum gas uptake value:
-$$ (sI) \space 2S·6L·46H_2O → \frac{8}{46} = 0.1739$$
-$$ (sII) \space 8S·16L·136H_2O → \frac{24}{136} = 0.1765$$
-$$ (sH) \space 3S·2M·1L·34H_2O → \frac{6}{34} = 0.1765$$
+$$(sI) \space 2S·6L·46H_2O → \frac{8}{46} = 0.1739$$
+$$(sII) \space 8S·16L·136H_2O → \frac{24}{136} = 0.1765$$
+$$(sH) \space 3S·2M·1L·34H_2O → \frac{6}{34} = 0.1765$$
 Where $S$ stands for the small cage, $M$ stands for the medium cage, and $L$ stands for the large cage. If you don't want to mark the theoretical maximum gas uptake value in your plot, you can simply select the `hydrate-type` option as `none`.
 | When `hydrate-type` is on | When `hydrate-type` is `none` |
 |:-------------------------:|:-------------------------:|
