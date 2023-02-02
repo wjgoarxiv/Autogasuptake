@@ -18,6 +18,14 @@ You will need below packages to run **Autogasuptake**. But don't worry, you can 
 - `pyfiglet`
 - `tabulate`
 
+## **Features**
+- Can polish the raw data file 
+- z value calculation based on Peng-Robinson & Redlich-Kwong EOS models
+- Can calculate the gas uptake based on the z value 
+- Supply various user options 
+- Can decorate the graph with research figure style
+- Can export the graph as a png, pdf, or svg file
+
 ## **How to Install**
 It is easy to install **Autogasuptake**. Just use `pip` or `pip3` to install it.
 ```bash
