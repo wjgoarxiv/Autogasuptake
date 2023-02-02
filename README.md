@@ -246,8 +246,16 @@ If you don't want to mark the theoretical maximum gas uptake value in your plot,
 > EOF
 > done
 > ```
-> Unfortunately, `autogasuptake` cannot distinguish output CSV data exported from running it. Thus, we might use the even number while the sequence loops. 
-> The overall files inside the current directory might be like this:
+> Unfortunately, `autogasuptake` cannot distinguish output CSV data exported from running it. Thus, we might use the even number while the sequence loops.
+> Authorize `advanced.sh`.
+> ```
+> $ chmod +x advanced.sh
+> ```
+> Then, execute it! 
+> ```
+> $ ./advanced.sh
+> ```
+> Then, the overall files inside the current directory might be like this:
 > ```
 > .
 > ├── Raw1.csv
