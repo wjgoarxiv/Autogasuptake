@@ -444,17 +444,14 @@ def main():
         if tunit == 'h':
             plt.plot(df['Time (h)'], df['Gas uptake (mol of gas / mol of water)'], color='black')
             plt.xlim(0, df['Time (h)'].iloc[-1])
-            plt.ylim(0 , round(df['Gas uptake (mol of gas / mol of water)'].max() + 0.4 * df['Gas uptake (mol of gas / mol of water)'].max(), 2))
             plt.xlabel('Time (h)')
         elif tunit == 'm':
             plt.plot(df['Time (min)'], df['Gas uptake (mol of gas / mol of water)'], color='black')
             plt.xlim(0, df['Time (min)'].iloc[-1])
-            plt.ylim(0, round(df['Gas uptake (mol of gas / mol of water)'].max() + 0.4 * df['Gas uptake (mol of gas / mol of water)'].max(), 2))
             plt.xlabel('Time (min)')
         elif tunit == 's':
             plt.plot(df['Time (s)'], df['Gas uptake (mol of gas / mol of water)'], color='black')
             plt.xlim(0, df['Time (s)'].iloc[-1])
-            plt.ylim(0 , round(df['Gas uptake (mol of gas / mol of water)'].max() + 0.4 * df['Gas uptake (mol of gas / mol of water)'].max(), 2))
             plt.xlabel('Time (s)')
         plt.ylabel('Gas uptake (mol of gas / mol of water)')
         plt.tight_layout()
@@ -470,23 +467,29 @@ def main():
         if clath_type == 'sI':
             plt.axhline(y=0.1739, color='black', linestyle='--', linewidth=1.5)
             plt.text(3, 0.176, 'Theoretical maximum value of gas uptake', color='black', fontsize=10)
+            plt.ylim(0, 0.19)
         elif clath_type == 'sII':
             plt.axhline(clath_typeclath_typey=0.1765, color='black', linestyle='--', linewidth=1.5)
             plt.text(3, 0.18, 'Theoretical maximum value of gas uptake', color='black', fontsize=10)
+            plt.ylim(0, 0.194)
         elif clath_type == 'sH':
             plt.axhline(y=0.1765, color='black', linestyle='--', linewidth=1.5)
             plt.text(3, 0.18, 'Theoretical maximum value of gas uptake', color='black', fontsize=10)
+            plt.ylim(0, 0.194)
         elif clath_type == 'SCS-I':
             plt.axhline(y=0.04368, color='black', linestyle='--', linewidth=1.5)
             plt.text(3, 0.046, 'Theoretical maximum value of gas uptake', color='black', fontsize=10)
+            plt.ylim(0, 0.05)
         elif clath_type == 'TS-I':
             plt.axhline(y=0.05814, color='black', linestyle='--', linewidth=1.5)
             plt.text(3, 0.061, 'Theoretical maximum value of gas uptake', color='black', fontsize=10)
+            plt.ylim(0, 0.065)
         elif clath_type == 'HS-I':
             plt.axhline(y=0.075, color='black', linestyle='--', linewidth=1.5)
             plt.text(3, 0.078, 'Theoretical maximum value of gas uptake', color='black', fontsize=10)
+            plt.ylim(0, 0.085)
         elif clath_type == 'none':
-            pass
+            plt.ylim(0, round(df['Gas uptake (mol of gas / mol of water)'].max() + 0.4 * df['Gas uptake (mol of gas / mol of water)'].max(), 2))
         else: 
             print('ERROR Incorrect input. Please enter "sI", "sII", "sH", "SCS-I", "TS-I", "HS-I", or "none".')
             sys.exit()
@@ -509,17 +512,14 @@ def main():
         if tunit == 'h':
             plt.scatter(df['Time (h)'], df['Gas uptake (mol of gas / mol of water)'], color='black')
             plt.xlim(0, df['Time (h)'].iloc[-1])
-            plt.ylim(0 , round(df['Gas uptake (mol of gas / mol of water)'].max() + 0.4 * df['Gas uptake (mol of gas / mol of water)'].max(), 2))
             plt.xlabel('Time (h)')
         elif tunit == 'm':
             plt.scatter(df['Time (min)'], df['Gas uptake (mol of gas / mol of water)'], color='black')
             plt.xlim(0, df['Time (min)'].iloc[-1])
-            plt.ylim(0, round(df['Gas uptake (mol of gas / mol of water)'].max() + 0.4 * df['Gas uptake (mol of gas / mol of water)'].max(), 2))
             plt.xlabel('Time (min)')
         elif tunit == 's':
             plt.scatter(df['Time (s)'], df['Gas uptake (mol of gas / mol of water)'], color='black')
             plt.xlim(0, df['Time (s)'].iloc[-1])
-            plt.ylim(0 , round(df['Gas uptake (mol of gas / mol of water)'].max() + 0.4 * df['Gas uptake (mol of gas / mol of water)'].max(), 2))
             plt.xlabel('Time (s)')
         plt.ylabel('Gas uptake (mol of gas / mol of water)')
         plt.tight_layout()
@@ -535,23 +535,29 @@ def main():
         if clath_type == 'sI':
             plt.axhline(y=0.1739, color='black', linestyle='--', linewidth=1.5)
             plt.text(3, 0.176, 'Theoretical maximum value of gas uptake', color='black', fontsize=10)
+            plt.ylim(0, 0.19)
         elif clath_type == 'sII':
             plt.axhline(y=0.1765, color='black', linestyle='--', linewidth=1.5)
             plt.text(3, 0.18, 'Theoretical maximum value of gas uptake', color='black', fontsize=10)
+            plt.ylim(0, 0.194)
         elif clath_type == 'sH':
             plt.axhline(y=0.1765, color='black', linestyle='--', linewidth=1.5)
             plt.text(3, 0.18, 'Theoretical maximum value of gas uptake', color='black', fontsize=10)
+            plt.ylim(0, 0.194)
         elif clath_type == 'SCS-I':
             plt.axhline(y=0.04368, color='black', linestyle='--', linewidth=1.5)
             plt.text(3, 0.046, 'Theoretical maximum value of gas uptake', color='black', fontsize=10)
+            plt.ylim(0, 0.05)
         elif clath_type == 'TS-I':
             plt.axhline(y=0.05814, color='black', linestyle='--', linewidth=1.5)
             plt.text(3, 0.061, 'Theoretical maximum value of gas uptake', color='black', fontsize=10)
+            plt.ylim(0, 0.065)
         elif clath_type == 'HS-I':
             plt.axhline(y=0.075, color='black', linestyle='--', linewidth=1.5)
             plt.text(3, 0.078, 'Theoretical maximum value of gas uptake', color='black', fontsize=10)
+            plt.ylim(0, 0.085)
         elif clath_type == 'none':
-            pass
+            plt.ylim(0, round(df['Gas uptake (mol of gas / mol of water)'].max() + 0.4 * df['Gas uptake (mol of gas / mol of water)'].max(), 2))
         else: 
             print('ERROR Incorrect input. Please enter "sI", "sII", "sH", "SCS-I", "TS-I", "HS-I", or "none".')
             sys.exit()
