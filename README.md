@@ -1,5 +1,6 @@
 # **Autogasuptake**
 :: A simple Python script for automating the calculation and visualization of gas uptake from a raw data file ::
+<img src="https://github.com/wjgoarxiv/Autogasuptake/blob/4a3867a1cd1054b751cc9e83a94c013f3604d5e1/LOGO.png"/>
 
 ## **Introduction**
 **Autogasuptake** is a convinient tool for automating the calculation and visualization of gas uptake from a raw csv file that contains the cylinder volume and the pressure of the gas in the experimental system. 
