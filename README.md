@@ -17,6 +17,7 @@ You will need below packages to run **Autogasuptake**. But don't worry, you can 
 - `seaborn`
 - `pyfiglet`
 - `tabulate`
+- `uniplot`
 
 ## **Features**
 - Can polish the raw data file 
