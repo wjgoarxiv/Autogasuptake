@@ -12,6 +12,7 @@ from tabulate import tabulate
 import glob
 import pyfiglet
 from scipy.optimize import newton
+from uniplot import plot
 
 # Print the title
 os.system('cls' if os.name == 'nt' else 'clear')
@@ -365,6 +366,39 @@ def main():
     ###############CALCULATION################
 
     ###############GRAPH PLOTTER################
+    # 0. Ask user to trim the data if they want
+    # But first, by executing uniplot to show the brief plot of the data, the user can see whether they want to trim the data or not.
+
+    if tunit == "h":
+        print("\nINFO Xlabel: Time (h), Ylabel: Gas uptake (mol of gas / mol of water)")
+        plot(df['Gas uptake (mol of gas / mol of water)'], df['Time (h)'], interactive = True)
+    elif tunit == "m":
+        print("\nINFO Xlabel: Time (min), Ylabel: Gas uptake (mol of gas / mol of water)")
+        plot(df['Gas uptake (mol of gas / mol of water)'], df['Time (min)'], interactive = True)
+    elif tunit == "s":
+        print("\nINFO Xlabel: Time (s), Ylabel: Gas uptake (mol of gas / mol of water)")
+        plot(df['Gas uptake (mol of gas / mol of water)'], df['Time (s)'], interactive = True)
+    else: 
+        pass
+             
+    ask_trim = input("INFO Do you want to trim the data? (y/n): ")
+    if ask_trim == 'y':
+        if tunit == "h": 
+            trim_start = float(input("INFO What is the start time (in hours) that you want to trim? (e.g. 0.5): "))
+            trim_end = float(input("INFO What is the end time (in hours) that you want to trim? (e.g. 1.5): "))
+            df = df[(df['Time (h)'] >= trim_start) & (df['Time (h)'] <= trim_end)]
+        elif tunit == "m":
+            trim_start = float(input("INFO What is the start time (in minutes) that you want to trim? (e.g. 30): "))
+            trim_end = float(input("INFO What is the end time (in minutes) that you want to trim? (e.g. 90): "))
+            df = df[(df['Time (min)'] >= trim_start) & (df['Time (min)'] <= trim_end)]
+        elif tunit == "s":
+            trim_start = float(input("INFO What is the start time (in seconds) that you want to trim? (e.g. 1800): "))
+            trim_end = float(input("INFO What is the end time (in seconds) that you want to trim? (e.g. 2700): "))
+            df = df[(df['Time (s)'] >= trim_start) & (df['Time (s)'] <= trim_end)]
+        else:
+            pass
+    elif ask_trim == 'n':
+        print("INFO The data will not be trimmed. The program will be continued.")
 
     # 1. Plot type selection
     # The program will ask the user first which kinds of plot they want to see (options: scatter, line, bar)
