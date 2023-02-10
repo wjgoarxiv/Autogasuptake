@@ -368,7 +368,6 @@ def main():
     ###############GRAPH PLOTTER################
     # 0. Ask user to trim the data if they want
     # But first, by executing uniplot to show the brief plot of the data, the user can see whether they want to trim the data or not.
-
     if tunit == "h":
         print("\nINFO Xlabel: Time (h), Ylabel: Gas uptake (mol of gas / mol of water)")
         plot(df['Gas uptake (mol of gas / mol of water)'], df['Time (h)'], interactive = True)
@@ -381,20 +380,30 @@ def main():
     else: 
         pass
              
+    # Note that if user set the start time, the program will count that point as 0. For instance, if user enters start time as 50 and end time as 500, the program will start the x-axis from 0 to 450.
     ask_trim = input("INFO Do you want to trim the data? (y/n): ")
     if ask_trim == 'y':
         if tunit == "h": 
             trim_start = float(input("INFO What is the start time (in hours) that you want to trim? (e.g. 0.5): "))
-            trim_end = float(input("INFO What is the end time (in hours) that you want to trim? (e.g. 1.5): "))
-            df = df[(df['Time (h)'] >= trim_start) & (df['Time (h)'] <= trim_end)]
+            trim_end = float(input("INFO What is the end time (in hours) that you want to trim? (e.g. 5): "))
+            df_trimmed = df[(df['Time (h)'] >= trim_start) & (df['Time (h)'] <= trim_end)]
+            df_trimmed = df_trimmed.copy()
+            df_trimmed['Time (h)'] = df_trimmed['Time (h)'] - trim_start
+            print("INFO The data was successfully trimmed!")
         elif tunit == "m":
             trim_start = float(input("INFO What is the start time (in minutes) that you want to trim? (e.g. 30): "))
-            trim_end = float(input("INFO What is the end time (in minutes) that you want to trim? (e.g. 90): "))
-            df = df[(df['Time (min)'] >= trim_start) & (df['Time (min)'] <= trim_end)]
+            trim_end = float(input("INFO What is the end time (in minutes) that you want to trim? (e.g. 300): "))
+            df_trimmed = df[(df['Time (min)'] >= trim_start) & (df['Time (min)'] <= trim_end)]
+            df_trimmed = df_trimmed.copy()
+            df_trimmed['Time (min)'] = df_trimmed['Time (min)'] - trim_start
+            print("INFO The data was successfully trimmed!")
         elif tunit == "s":
-            trim_start = float(input("INFO What is the start time (in seconds) that you want to trim? (e.g. 1800): "))
-            trim_end = float(input("INFO What is the end time (in seconds) that you want to trim? (e.g. 2700): "))
-            df = df[(df['Time (s)'] >= trim_start) & (df['Time (s)'] <= trim_end)]
+            trim_start = float(input("INFO What is the start time (in seconds) that you want to trim? (e.g. 30): "))
+            trim_end = float(input("INFO What is the end time (in seconds) that you want to trim? (e.g. 300): "))
+            df_trimmed = df[(df['Time (s)'] >= trim_start) & (df['Time (s)'] <= trim_end)]
+            df_trimmed = df_trimmed.copy()
+            df_trimmed['Time (s)'] = df_trimmed['Time (s)'] - trim_start
+            print("INFO The data was successfully trimmed!")
         else:
             pass
     elif ask_trim == 'n':
@@ -406,14 +415,24 @@ def main():
     # 2. Plot settings
     if plot_type == 'scatter':
         scatter_num = int(input("INFO How many dots do you want to include in the scatter plot? (Recommended: 20): "))
-        if scatter_num > len(df):
-            print("ERROR The number of dots is larger than the number of data points. Please check the input again.")
-            print("ERROR The program will stop.")
-            exit()
-        total_data_num = len(df)
-        interval = int(total_data_num / scatter_num)
-        df = df.iloc[::interval, :]
-        print("INFO The scatter plot will include" , scatter_num, "dots.") 
+        if ask_trim == 'y' or 'Y': 
+            if scatter_num > len(df_trimmed):
+                print("ERROR The number of dots is larger than the number of data points. Please check the input again.")
+                print("ERROR The program will stop.")
+                exit()
+            total_data_num = len(df_trimmed)
+            interval = int(total_data_num / scatter_num)
+            df_trimmed = df_trimmed.iloc[::interval, :]
+            print("INFO The scatter plot will include" , scatter_num, "dots.")
+        elif ask_trim == 'n' or 'N':
+            if scatter_num > len(df):
+                print("ERROR The number of dots is larger than the number of data points. Please check the input again.")
+                print("ERROR The program will stop.")
+                exit()
+            total_data_num = len(df)
+            interval = int(total_data_num / scatter_num)
+            df = df.iloc[::interval, :]
+            print("INFO The scatter plot will include" , scatter_num, "dots.") 
     else:
         pass
 
@@ -475,18 +494,35 @@ def main():
 
     if plot_type == 'line':
         # Plotting
-        if tunit == 'h':
-            plt.plot(df['Time (h)'], df['Gas uptake (mol of gas / mol of water)'], color='black')
-            plt.xlim(0, df['Time (h)'].iloc[-1])
-            plt.xlabel('Time (h)')
-        elif tunit == 'm':
-            plt.plot(df['Time (min)'], df['Gas uptake (mol of gas / mol of water)'], color='black')
-            plt.xlim(0, df['Time (min)'].iloc[-1])
-            plt.xlabel('Time (min)')
-        elif tunit == 's':
-            plt.plot(df['Time (s)'], df['Gas uptake (mol of gas / mol of water)'], color='black')
-            plt.xlim(0, df['Time (s)'].iloc[-1])
-            plt.xlabel('Time (s)')
+        if ask_trim == 'y' or 'Y':
+            if tunit == 'h':
+                plt.plot(df_trimmed['Time (h)'], df_trimmed['Gas uptake (mol of gas / mol of water)'], color='black')
+                plt.xlim(df_trimmed['Time (h)'].iloc[0], df_trimmed['Time (h)'].iloc[-1])
+                plt.xlabel('Time (h)')
+            elif tunit == 'm':
+                plt.plot(df_trimmed['Time (min)'], df_trimmed['Gas uptake (mol of gas / mol of water)'], color='black')
+                plt.xlim(df_trimmed['Time (min)'].iloc[0], df_trimmed['Time (min)'].iloc[-1])
+                plt.xlabel('Time (min)')
+            elif tunit == 's':
+                plt.plot(df_trimmed['Time (s)'], df_trimmed['Gas uptake (mol of gas / mol of water)'], color='black')
+                plt.xlim(df_trimmed['Time (s)'].iloc[0], df_trimmed['Time (s)'].iloc[-1])
+                plt.xlabel('Time (s)')
+        elif ask_trim == 'n' or 'N': 
+            if tunit == 'h':
+                plt.plot(df['Time (h)'], df['Gas uptake (mol of gas / mol of water)'], color='black')
+                plt.xlim(df['Time (h)'].iloc[0], df['Time (h)'].iloc[-1])
+                plt.xlabel('Time (h)')
+            elif tunit == 'm':
+                plt.plot(df['Time (min)'], df['Gas uptake (mol of gas / mol of water)'], color='black')
+                plt.xlim(df['Time (min)'].iloc[0], df['Time (min)'].iloc[-1])
+                plt.xlabel('Time (min)')
+            elif tunit == 's':
+                plt.plot(df['Time (s)'], df['Gas uptake (mol of gas / mol of water)'], color='black')
+                plt.xlim(df['Time (s)'].iloc[0], df['Time (s)'].iloc[-1])
+                plt.xlabel('Time (s)')
+        else: 
+            print('ERROR Incorrect input. Please enter "y" or "n".')
+            sys.exit()
         plt.ylabel('Gas uptake (mol of gas / mol of water)')
         plt.tight_layout()
 
@@ -543,18 +579,35 @@ def main():
 
     elif plot_type == 'scatter':
         # Plotting
-        if tunit == 'h':
-            plt.scatter(df['Time (h)'], df['Gas uptake (mol of gas / mol of water)'], color='black')
-            plt.xlim(0, df['Time (h)'].iloc[-1])
-            plt.xlabel('Time (h)')
-        elif tunit == 'm':
-            plt.scatter(df['Time (min)'], df['Gas uptake (mol of gas / mol of water)'], color='black')
-            plt.xlim(0, df['Time (min)'].iloc[-1])
-            plt.xlabel('Time (min)')
-        elif tunit == 's':
-            plt.scatter(df['Time (s)'], df['Gas uptake (mol of gas / mol of water)'], color='black')
-            plt.xlim(0, df['Time (s)'].iloc[-1])
+        if ask_trim == 'y' or ask_trim == 'Y':
+            if tunit == 'h':
+                plt.scatter(df_trimmed['Time (h)'], df_trimmed['Gas uptake (mol of gas / mol of water)'], color='black')
+                plt.xlim(df_trimmed['Time (h)'].iloc[0], df_trimmed['Time (h)'].iloc[-1])
+                plt.xlabel('Time (h)')
+            elif tunit == 'm':
+                plt.scatter(df_trimmed['Time (min)'], df_trimmed['Gas uptake (mol of gas / mol of water)'], color='black')
+                plt.xlim(df_trimmed['Time (min)'].iloc[0], df_trimmed['Time (min)'].iloc[-1])
+                plt.xlabel('Time (min)')
+            elif tunit == 's':
+                plt.scatter(df_trimmed['Time (s)'], df_trimmed['Gas uptake (mol of gas / mol of water)'], color='black')
+                plt.xlim(df_trimmed['Time (s)'].iloc[0], df_trimmed['Time (s)'].iloc[-1])
+                plt.xlabel('Time (s)')
+        elif ask_trim == 'n' or ask_trim == 'N':
+            if tunit == 'h':
+                plt.scatter(df['Time (h)'], df['Gas uptake (mol of gas / mol of water)'], color='black')
+                plt.xlim(df['Time (h)'].iloc[0], df['Time (h)'].iloc[-1])
+                plt.xlabel('Time (h)')
+            elif tunit == 'm':
+                plt.scatter(df['Time (min)'], df['Gas uptake (mol of gas / mol of water)'], color='black')
+                plt.xlim(df['Time (min)'].iloc[0], df['Time (min)'].iloc[-1])
+                plt.xlabel('Time (min)')
+            elif tunit == 's':
+                plt.scatter(df['Time (s)'], df['Gas uptake (mol of gas / mol of water)'], color='black')
+                plt.xlim(df['Time (s)'].iloc[0], df['Time (s)'].iloc[-1])
             plt.xlabel('Time (s)')
+        else: 
+            print('ERROR Incorrect input. Please enter "y" or "n".')
+            sys.exit()
         plt.ylabel('Gas uptake (mol of gas / mol of water)')
         plt.tight_layout()
 
