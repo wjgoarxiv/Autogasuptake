@@ -132,7 +132,39 @@ After the program outputs the graph, it collects the processed data and creates 
 Pressure (psi) | Cylinder volume (mL) |	Pressure (bar) | Cylinder volume (L) | Time (min) | Delta_V (L) | Gas uptake (mol of gas) | Gas uptake (mol of gas / mol of water)
  :-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:|
  | ... | ... | ... | ... | ... | ... | ... | ... |
-
+ 
+### **(3) New Feature: CSV Data Visualization in the terminal (2023. 02. 13. updated)**
+Autogasuptake now includes a new feature that allows users to visualize their CSV data in the terminal using the embedded `uniplot` library. Users can interactively view the graph and trim the x-axis by inputting the starting and ending points. The output graph will be automatically trimmed based on the user's x value inputs. If you select your desired CSV file, the terminal shows: 
+```
+INFO Xlabel: Time (min), Ylabel: Gas uptake (mol of gas / mol of water)
+┌────────────────────────────────────────────────────────────┐
+│                     │                                      │ 
+│                     │                  ▗▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▟▀│ 
+│                     │      ▗▄▄▄▛▀▀▀▀▀▀▀▘                   │ 
+│                     │    ▗▛▀                               │ 0.1
+│                     │   ▟▀                                 │ 
+│                     │  ▗▌                                  │ 
+│                     │  ▐                                   │ 
+│                     │  ▟                                   │ 
+│                     │  ▌                                   │ 
+│                     │ ▗▌                                   │ 
+│                     │ ▐                                    │ 
+│                     │ ▟                                    │ 
+│                     │ ▌                                    │ 
+│▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▝▀▘▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔│ -0.0
+│                     │                                      │ 
+│                     │                                      │ 
+│                     │                                      │ 
+└────────────────────────────────────────────────────────────┘
+   -500               0               500             1,000
+Move h/j/k/l, zoom u/n, or r to reset. ESC/q to quit
+```
+You are free to navigate the graph and choose the x-region that you want to trim. Once you have finished previewing the graph, you can exit by typing ESC or q. You will then be prompted with the question:
+```
+Do you want to trim the data? (y/n):
+```
+If you select 'y', the terminal will ask for the start and end times that you want to trim. You can enter the start and end times in minutes, e.g. "30" and "300", respectively. Once you have provided these values, the graph will be trimmed based on the selected x-region.
+And that's it! Your graph will now be displayed with the x-region trimmed as per your input.
 
 ## **Equation of State (EOS) information**
 ### **Redlich-Kwong (RK) EOS**
