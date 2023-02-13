@@ -382,7 +382,7 @@ def main():
              
     # Note that if user set the start time, the program will count that point as 0. For instance, if user enters start time as 50 and end time as 500, the program will start the x-axis from 0 to 450.
     ask_trim = input("INFO Do you want to trim the data? (y/n): ")
-    if ask_trim == 'y':
+    if ask_trim == 'y' or ask_trim == 'Y':
         if tunit == "h": 
             trim_start = float(input("INFO What is the start time (in hours) that you want to trim? (e.g. 0.5): "))
             trim_end = float(input("INFO What is the end time (in hours) that you want to trim? (e.g. 5): "))
@@ -406,7 +406,7 @@ def main():
             print("INFO The data was successfully trimmed!")
         else:
             pass
-    elif ask_trim == 'n':
+    elif ask_trim == 'n' or ask_trim == 'N':
         print("INFO The data will not be trimmed. The program will be continued.")
 
     # 1. Plot type selection
@@ -415,7 +415,7 @@ def main():
     # 2. Plot settings
     if plot_type == 'scatter':
         scatter_num = int(input("INFO How many dots do you want to include in the scatter plot? (Recommended: 20): "))
-        if ask_trim == 'y' or 'Y': 
+        if ask_trim == 'y' or ask_trim == 'Y':
             if scatter_num > len(df_trimmed):
                 print("ERROR The number of dots is larger than the number of data points. Please check the input again.")
                 print("ERROR The program will stop.")
@@ -424,7 +424,7 @@ def main():
             interval = int(total_data_num / scatter_num)
             df_trimmed = df_trimmed.iloc[::interval, :]
             print("INFO The scatter plot will include" , scatter_num, "dots.")
-        elif ask_trim == 'n' or 'N':
+        elif ask_trim == 'n' or ask_trim == 'N':
             if scatter_num > len(df):
                 print("ERROR The number of dots is larger than the number of data points. Please check the input again.")
                 print("ERROR The program will stop.")
@@ -494,7 +494,7 @@ def main():
 
     if plot_type == 'line':
         # Plotting
-        if ask_trim == 'y' or 'Y':
+        if ask_trim == 'y' or ask_trim == 'Y':
             if tunit == 'h':
                 plt.plot(df_trimmed['Time (h)'], df_trimmed['Gas uptake (mol of gas / mol of water)'], color='black')
                 plt.xlim(df_trimmed['Time (h)'].iloc[0], df_trimmed['Time (h)'].iloc[-1])
@@ -507,7 +507,7 @@ def main():
                 plt.plot(df_trimmed['Time (s)'], df_trimmed['Gas uptake (mol of gas / mol of water)'], color='black')
                 plt.xlim(df_trimmed['Time (s)'].iloc[0], df_trimmed['Time (s)'].iloc[-1])
                 plt.xlabel('Time (s)')
-        elif ask_trim == 'n' or 'N': 
+        elif ask_trim == 'n' or ask_trim == 'N':
             if tunit == 'h':
                 plt.plot(df['Time (h)'], df['Gas uptake (mol of gas / mol of water)'], color='black')
                 plt.xlim(df['Time (h)'].iloc[0], df['Time (h)'].iloc[-1])
