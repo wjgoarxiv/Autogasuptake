@@ -179,7 +179,7 @@ The z value is calculated by using the Newton's method.
 ### **Peng-Robinson (PR) EOS**
 Peng-Robinson EOS is more newer than Redlich-Kwong EOS and also one of the most popular EOSs. To calculate the compressibility factor ( $z$ ), the program uses the following equations:
 $$Tr = \frac{T}{T_c}, \quad Pr = \frac{P}{P_c}$$
-$$a = 0.45724 \frac{R^2 T_c^{2}}{P_c} \omega, \quad b = 0.07780 \frac{RT_c}{P_c}$$
+$$a = 0.45724 \frac{R^2 T_c^{2}}{P_c}, \quad b = 0.07780 \frac{RT_c}{P_c}$$
 $$\kappa = 0.37464 + 1.54226\omega - 0.26992\omega^2$$
 $$\alpha = (1 + \kappa(1 - \sqrt{T_r}))^2$$
 $$A = \frac{\alpha a p}{R^2 T^2}, \quad B = \frac{bp}{RT}$$
